@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bohot normal si website hai</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #1a1a1a;
+    --white: #fff8f0;
+    --panda-white: #f5f0e8;
+    --panda-black: #2d2d2d;
+    --pink: #ffb3c6;
+    --hot-pink: #ff4d88;
+    --bamboo: #7ab648;
+    --bamboo-dark: #4a7a28;
+    --yellow: #ffe66d;
+    --orange: #ff9a3c;
+    --purple: #c084fc;
+    --sky: #7dd3fc;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--white);
+    font-family: 'Nunito', sans-serif;
+    color: var(--black);
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E🐼%3C/text%3E%3C/svg%3E") 16 16, auto;
+  }
+
+  /* ---- FAKE LOADING SCREEN ---- */
+  #loading-screen {
+    position: fixed; inset: 0;
+    background: #1a1a1a;
+    z-index: 99999;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    color: white; text-align: center;
+  }
+  #loading-screen .load-panda { font-size: 5rem; animation: spin 1s linear infinite; display: block; margin-bottom: 1rem; }
+  @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  #loading-bar-wrap { width: 280px; height: 14px; background: #333; border-radius: 99px; margin: 1rem auto; overflow: hidden; }
+  #loading-bar { height: 100%; width: 0%; background: var(--hot-pink); border-radius: 99px; transition: width 0.3s; }
+  #loading-msg { font-family: 'Nunito', sans-serif; font-size: 0.9rem; color: #aaa; margin-top: 0.5rem; min-height: 1.3rem; }
+
+  /* ---- HERO ---- */
+  .hero {
+    min-height: 100vh;
+    background: #ffe8f0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 2rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -60px; left: -60px;
+    width: 200px; height: 200px; background: var(--pink); border-radius: 50%; opacity: 0.4;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: -80px; right: -80px;
+    width: 260px; height: 260px; background: var(--bamboo); border-radius: 50%; opacity: 0.2;
+  }
+  .hero-panda {
+    font-size: 100px; line-height: 1;
+    animation: wobble 2s ease-in-out infinite;
+    display: block; margin-bottom: 1rem;
+    filter: drop-shadow(4px 4px 0 #2d2d2d);
+  }
+  @keyframes wobble {
+    0%,100% { transform: rotate(-5deg) scale(1); }
+    50% { transform: rotate(5deg) scale(1.05); }
+  }
+  .hero h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 7vw, 4.5rem);
+    color: var(--panda-black); line-height: 1.1; margin-bottom: 0.5rem;
+    text-shadow: 3px 3px 0 var(--hot-pink); position: relative; z-index: 1;
+  }
+  .hero p { font-size: 1.2rem; color: #666; margin-bottom: 2rem; position: relative; z-index: 1; }
+  .scroll-hint {
+    font-size: 0.9rem; color: var(--hot-pink); font-weight: 700;
+    animation: bounce 1s ease-in-out infinite; position: relative; z-index: 1;
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+  /* ---- SECTIONS ---- */
+  section { padding: 4rem 1.5rem; max-width: 900px; margin: 0 auto; }
+  .section-title {
+    font-family: 'Fredoka One', cursive; font-size: 2.2rem;
+    margin-bottom: 2rem; text-align: center; color: var(--panda-black);
+  }
+
+
+  /* ---- BUTTON STYLE ---- */
+  .btn {
+    font-family: 'Fredoka One', cursive; font-size: 1.1rem;
+    padding: 0.7rem 1.8rem; border: 3px solid var(--panda-black); border-radius: 50px;
+    cursor: pointer; box-shadow: 4px 4px 0 var(--panda-black);
+    transition: transform 0.1s, box-shadow 0.1s; background: var(--yellow);
+    color: var(--panda-black); display: inline-block;
+  }
+  .btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--panda-black); }
+  .btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--panda-black); }
+
+  /* ---- GAMES SECTION ---- */
+  .games-section { background: #f0fff4; border-radius: 24px; padding: 3rem 2rem; }
+  .game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+  .game-card {
+    background: #fff; border: 3px solid var(--panda-black); border-radius: 16px;
+    padding: 1.5rem; box-shadow: 5px 5px 0 var(--panda-black); text-align: center;
+  }
+  .game-card h3 { font-family: 'Fredoka One', cursive; font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .game-card p { font-size: 0.9rem; color: #555; margin-bottom: 1rem; }
+  .game-card p:last-of-type { margin-bottom: 0; }
+
+  #quiz-result { margin-top: 1rem; font-weight: 900; font-size: 1.1rem; min-height: 1.5rem; color: var(--hot-pink); }
+  #clicker-panda { font-size: 4rem; cursor: pointer; display: block; margin: 0 auto 0.5rem; transition: transform 0.05s; user-select: none; }
+  #clicker-panda:active { transform: scale(0.85); }
+  #click-count { font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--bamboo-dark); }
+  #click-message { font-size: 0.85rem; color: #888; min-height: 1.2rem; }
+  .mood-btns { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 0.8rem; }
+  .mood-btn {
+    font-size: 1.5rem; background: var(--panda-white); border: 2px solid var(--panda-black);
+    border-radius: 8px; padding: 0.3rem 0.6rem; cursor: pointer; transition: transform 0.1s;
+  }
+  .mood-btn:hover { transform: scale(1.2); }
+  #mood-result { font-size: 0.9rem; color: #555; min-height: 2rem; }
+  #impossible-wrap { position: relative; height: 80px; }
+  #impossible-btn { background: var(--purple); color: #fff; border-color: var(--panda-black); position: absolute; transition: top 0.15s, left 0.15s; }
+
+  /* ---- IQ TEST ---- */
+  #iq-options { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin: 0.8rem 0; }
+  .iq-opt { font-family: 'Fredoka One', cursive; font-size: 1rem; padding: 0.5rem 1rem; border: 2px solid var(--panda-black); border-radius: 8px; cursor: pointer; background: var(--panda-white); transition: transform 0.1s; }
+  .iq-opt:hover { transform: scale(1.05); background: var(--yellow); }
+
+  /* ---- SCROLLBAR TROLL ---- */
+  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar-track { background: #ffe8f0; }
+  ::-webkit-scrollbar-thumb { background: var(--hot-pink); border-radius: 99px; border: 2px solid #fff; }
+
+  /* ---- LETTER ---- */
+  .letter-box {
+    background: var(--panda-white); border: 3px solid var(--panda-black); border-radius: 20px;
+    padding: 2.5rem; box-shadow: 8px 8px 0 var(--panda-black); text-align: center;
+    max-width: 600px; margin: 0 auto;
+  }
+  .letter-box .big-panda { font-size: 5rem; display: block; margin-bottom: 1rem; }
+  .letter-box p { font-size: 1.05rem; line-height: 1.9; color: #333; margin-bottom: 0.5rem; }
+  .letter-box .sign { font-family: 'Fredoka One', cursive; font-size: 1.4rem; margin-top: 1rem; color: var(--hot-pink); }
+
+  footer { background: var(--panda-black); color: var(--white); text-align: center; padding: 2rem; font-size: 0.9rem; }
+  footer span { color: var(--pink); }
+  .divider { text-align: center; font-size: 2rem; margin: 0 auto; opacity: 0.4; }
+
+  /* ---- CONFETTI ---- */
+  .confetti-piece {
+    position: fixed; width: 10px; height: 10px; top: -20px; opacity: 0;
+    border-radius: 2px; pointer-events: none; z-index: 9999;
+    animation: fall linear forwards;
+  }
+  @keyframes fall { 0%{opacity:1;transform:translateY(0) rotate(0deg)} 100%{opacity:0;transform:translateY(100vh) rotate(720deg)} }
+
+  /* ---- TROLL OVERLAY ---- */
+  #troll-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75); z-index: 10000;
+    align-items: center; justify-content: center;
+  }
+  #troll-box {
+    background: #fff; border: 4px solid var(--panda-black); border-radius: 20px;
+    padding: 2.5rem; text-align: center; max-width: 420px; width: 90%;
+    box-shadow: 10px 10px 0 var(--panda-black); animation: popIn 0.3s cubic-bezier(.17,.67,.53,1.4);
+  }
+  @keyframes popIn { from{transform:scale(0.5)} to{transform:scale(1)} }
+  #troll-box p { font-size: 1.1rem; margin-bottom: 1.2rem; line-height: 1.6; }
+  #troll-box .panda-big { font-size: 5rem; display: block; margin-bottom: 0.5rem; }
+
+  /* ---- SHAKE ANIMATION ---- */
+  @keyframes shake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-10px)}
+    40%{transform:translateX(10px)}
+    60%{transform:translateX(-8px)}
+    80%{transform:translateX(8px)}
+  }
+  .shake { animation: shake 0.5s ease; }
+
+  /* ---- PANDA RAIN ---- */
+  .panda-rain {
+    position: fixed; top: -60px; font-size: 2rem; pointer-events: none;
+    z-index: 9998; animation: pandaFall linear forwards;
+  }
+  @keyframes pandaFall { 0%{top:-60px;opacity:1} 100%{top:110vh;opacity:0.5} }
+
+  /* ---- FAKE PROGRESS ---- */
+  #fake-progress-wrap { display: none; width: 100%; background: #eee; border-radius: 99px; height: 12px; margin-top: 0.8rem; overflow: hidden; }
+  #fake-progress { height: 100%; width: 0%; background: var(--hot-pink); border-radius: 99px; transition: width 0.2s; }
+
+  /* ---- TIMER GAME ---- */
+  #timer-display { font-family: 'Fredoka One', cursive; font-size: 3rem; color: var(--bamboo-dark); }
+  #timer-msg { font-size: 0.9rem; color: #888; min-height: 1.2rem; margin-top: 0.3rem; }
+
+  /* ---- COMPLIMENT MACHINE ---- */
+  #compliment-box { min-height: 2rem; font-size: 1rem; color: var(--bamboo-dark); font-weight: 700; margin-top: 0.8rem; padding: 0.5rem; }
+
+  /* ---- SECRET COUNTER ---- */
+  #secret-banner {
+    display: none; position: fixed; bottom: 1rem; right: 1rem;
+    background: var(--panda-black); color: #fff; font-family: 'Fredoka One', cursive;
+    font-size: 0.9rem; padding: 0.6rem 1rem; border-radius: 12px; z-index: 9999;
+    animation: slideIn 0.4s ease;
+  }
+  @keyframes slideIn { from{transform:translateY(40px);opacity:0} to{transform:translateY(0);opacity:1} }
+</style>
+</head>
+<body>
+
+<!-- FAKE LOADING SCREEN -->
+<div id="loading-screen">
+  <span class="load-panda">🐼</span>
+  <div style="font-family:'Fredoka One',cursive;font-size:1.8rem;margin-bottom:0.3rem;">Loading your website...</div>
+  <div id="loading-bar-wrap"><div id="loading-bar"></div></div>
+  <div id="loading-msg">Ho hi gaya bas</div>
+</div>
+
+<!-- PANDA CURSOR TRAIL container -->
+<div id="trail-container" style="position:fixed;top:0;left:0;pointer-events:none;z-index:8888;"></div>
+
+<!-- SECRET BANNER -->
+<div id="secret-banner">🐼 aap itni der se iss website pe hain<span id="time-count">0</span>s. Thoda kaam vagera karo. Nalli.</div>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-panda">🐼</span>
+  <h1>A Website.<br>Made Just For You.<br>You're Welcome.</h1>
+  <p>No, I didn't have to do this. But here we are.<br><small style="color:#aaa;font-size:0.85rem;">(also you cannot close this tab. I've checked.)</small></p>
+  <div class="scroll-hint">Scroll karne ke liye alag se bolna padega kya?</div>
+</div>
+
+
+
+<!-- GAMES -->
+<section>
+  <div class="section-title">🎮 Totally Normal Games</div>
+  <div class="games-section">
+    <div class="game-grid">
+
+      <!-- 1: IMPOSSIBLE BUTTON -->
+      <div class="game-card">
+        <h3>The Runaway Button</h3>
+        <p>Try to click "Do Not Click".</p>
+        <div id="impossible-wrap">
+          <button class="btn" id="impossible-btn" onclick="trollBtn()" onmouseover="runBtn()">Do Not Click</button>
+        </div>
+        <div id="impossible-msg" style="font-size:0.85rem;color:#888;margin-top:0.5rem;min-height:1.2rem;"></div>
+      </div>
+
+      <!-- 2: QUIZ -->
+      <div class="game-card">
+        <h3>Are You A Panda Person?</h3>
+        <p>One question. Extremely scientific. Your answer will be judged. Galat mat karna.</p>
+        <p style="font-weight:700;">Do you like pandas?</p>
+        <div style="display:flex;gap:0.5rem;justify-content:center;margin-top:0.8rem;">
+          <button class="btn" onclick="quizAnswer('yes')">Yes 🐼</button>
+          <button class="btn" style="background:var(--sky);" onclick="quizAnswer('no')">No</button>
+        </div>
+        <div id="quiz-result"></div>
+      </div>
+
+      <!-- 3: CLICKER -->
+      <div class="game-card">
+        <h3>Bakchodi with Panda</h3>
+        <p>Click the panda. That's it.Itna hi hai. mai aalsi hoon.</p>
+        <span id="clicker-panda" onclick="clickPanda()">🐼</span>
+        <div id="click-count">0 clicks</div>
+        <div id="click-message"></div>
+      </div>
+
+      <!-- 4: MOOD ORACLE -->
+      <div class="game-card">
+        <h3>Mood system</h3>
+        <p>Pick your vibe. Get panda wisdom.</p>
+        <div class="mood-btns">
+          <button class="mood-btn" onclick="getMood('😭')">😭</button>
+          <button class="mood-btn" onclick="getMood('😐')">😐</button>
+          <button class="mood-btn" onclick="getMood('😂')">😂</button>
+          <button class="mood-btn" onclick="getMood('😤')">😤</button>
+          <button class="mood-btn" onclick="getMood('🥱')">🥱</button>
+          <button class="mood-btn" onclick="getMood('🤩')">🤩</button>
+        </div>
+        <div id="mood-result"></div>
+      </div>
+
+      <!-- 5: NAME RATER -->
+      <div class="game-card">
+        <h3>Name Rater 3000™</h3>
+        <p>Enter your name. Get an <em>extremely accurate</em> scientific rating. Everything is backed by science bharosa karo.</p>
+        <input id="name-input" type="text" placeholder="Your name..." style="width:100%;padding:0.5rem 0.8rem;border:2px solid var(--panda-black);border-radius:8px;font-size:1rem;font-family:Nunito,sans-serif;margin-bottom:0.8rem;">
+        <button class="btn" style="background:var(--bamboo);color:#fff;" onclick="rateName()">Rate It 🐼</button>
+        <div id="fake-progress-wrap"><div id="fake-progress"></div></div>
+        <div id="name-result" style="margin-top:0.8rem;font-size:0.9rem;color:#444;min-height:1.5rem;"></div>
+      </div>
+
+      <!-- 6: ESCAPE BUTTON -->
+      <div class="game-card">
+        <h3>Leave This Website</h3>
+        <p>You are free to go whenever you want.Pakka. 👍</p>
+        <button class="btn" id="escape-btn" onclick="tryLeave()">Exit →</button>
+        <div id="escape-msg" style="font-size:0.85rem;color:#888;margin-top:0.5rem;min-height:1.2rem;"></div>
+      </div>
+
+      <!-- 7: IQ TEST -->
+      <div class="game-card">
+        <h3>Official IQ Test™</h3>
+        <p>One question. Determines your entire intellect.</p>
+        <p id="iq-question" style="font-weight:700;margin-bottom:0.5rem;">What is 65+2?</p>
+        <div id="iq-options" class="iq-options">
+          <button class="iq-opt" onclick="iqAnswer(this,'wrong')">69</button>
+          <button class="iq-opt" onclick="iqAnswer(this,'correct')">67</button>
+          <button class="iq-opt" onclick="iqAnswer(this,'wrong')">5</button>
+          <button class="iq-opt" onclick="iqAnswer(this,'wrong')">🐼</button>
+        </div>
+        <div id="iq-result" style="font-size:0.9rem;min-height:1.2rem;margin-top:0.5rem;"></div>
+      </div>
+
+      <!-- 8: STOP THE TIMER -->
+      <div class="game-card">
+        <h3>Stop The Timer!</h3>
+        <p>Press STOP exactly at 5.00 seconds. Easy, right?</p>
+        <div id="timer-display">0.00</div>
+        <div id="timer-msg">press start and then stop at 5.00!</div>
+        <div style="display:flex;gap:0.5rem;justify-content:center;margin-top:0.8rem;">
+          <button class="btn" style="background:var(--bamboo);color:#fff;" onclick="startTimer()">Start ▶</button>
+          <button class="btn" style="background:var(--hot-pink);color:#fff;" onclick="stopTimer()">Stop ⏹</button>
+        </div>
+      </div>
+
+      <!-- 9: COMPLIMENT MACHINE -->
+      <div class="game-card">
+        <h3>Compliment Machine 9000</h3>
+        <p>Feeling low? Press the button. We have you covered.</p>
+        <button class="btn" style="background:var(--purple);color:#fff;" onclick="getCompliment()">Compliment Me 🌸</button>
+        <div id="compliment-box"></div>
+      </div>
+
+      <!-- 10: PANDA RAIN BUTTON -->
+      <div class="game-card">
+        <h3>Big Red Button</h3>
+        <p>You should NOT press this. I'm warning you.</p>
+        <button class="btn" style="background:#e53e3e;color:#fff;font-size:1.3rem;padding:1rem 2rem;" onclick="pandaRain()">DO NOT PRESS</button>
+        <div id="rain-msg" style="font-size:0.85rem;color:#888;margin-top:0.5rem;min-height:1.2rem;"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider">🐾🐼🐾🐼🐾</div>
+
+<!-- LETTER -->
+<section>
+  <div class="section-title"> Thora khush ho le</div>
+  <div class="letter-box">
+    <span class="big-panda">🐼</span>
+    <p>Hey,</p>
+    <p>You asked me to make something for you.<br>
+    So I made this. A whole website. With panda influence.<br>
+    And troll games. And a custom cursor.</p>
+    <p>You're welcome. I expect at least a "lol this is cute" in response. That's the payment.</p>
+    <p> Isko banane me aadha ghanta laga mujhe<br>and I hope this stupid little website made you smile at least once.<br>
+    If it didn't — ma chudao fir.</p>
+    <div class="sign">— Made with zero talent and minimum effort 🎋</div>
+  </div>
+</section>
+
+<footer>
+  <p>Made with <span> aalas</span> and <span>very forcefully.</span> But you might be embarrassed · <span id="footer-clicks">0</span> total clicks so far lol</p>
+</footer>
+
+<!-- TROLL OVERLAY -->
+<div id="troll-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:10000;align-items:center;justify-content:center;">
+  <div id="troll-box">
+    <span class="panda-big">🐼</span>
+    <p id="troll-msg">lol</p>
+    <button class="btn" id="troll-close-btn" onclick="closeTroll()">ok fine 😒</button>
+  </div>
+</div>
+
+<script>
+// ============ FAKE LOADING SCREEN ============
+const loadMsgs = [
+  "Waking up the server...",
+  "Khul jayega ruko...",
+  "Thora patience...",
+  "Fixing 47 bugs...",
+  "Making it look like I tried...",
+  "Almost done (lying)...",
+  "Ruko betichod khul jayega",
+  "Okay actually done. Or are we?",
+];
+let loadPct = 0;
+let loadIdx = 0;
+const loadInterval = setInterval(() => {
+  loadPct += Math.random() * 18 + 4;
+  if (loadPct > 100) loadPct = 100;
+  document.getElementById('loading-bar').style.width = loadPct + '%';
+  document.getElementById('loading-msg').textContent = loadMsgs[Math.min(loadIdx, loadMsgs.length - 1)];
+  loadIdx++;
+  if (loadPct >= 100) {
+    clearInterval(loadInterval);
+    document.getElementById('loading-msg').textContent = "Ready! (finally)";
+    setTimeout(() => {
+      document.getElementById('loading-screen').style.opacity = '0';
+      document.getElementById('loading-screen').style.transition = 'opacity 0.6s';
+      setTimeout(() => document.getElementById('loading-screen').style.display = 'none', 600);
+      spawnConfetti();
+    }, 700);
+  }
+}, 300);
+
+// ============ SITE TIMER ============
+let siteSeconds = 0;
+let totalClicks = 0;
+setInterval(() => {
+  siteSeconds++;
+  document.getElementById('time-count').textContent = siteSeconds;
+  document.getElementById('footer-clicks').textContent = totalClicks;
+  if (siteSeconds === 30) showSecretBanner();
+  if (siteSeconds === 60) showTroll("You've been on this panda website for a WHOLE MINUTE. 🐼 I'm equal parts proud and concerned.");
+  if (siteSeconds === 120) showTroll("TWO MINUTES. Do you live here now? Should I set up a bed?? 🛏️🐼");
+}, 1000);
+function showSecretBanner() {
+  document.getElementById('secret-banner').style.display = 'block';
+  setTimeout(() => document.getElementById('secret-banner').style.display = 'none', 5000);
+}
+document.addEventListener('click', () => { totalClicks++; });
+
+// ============ CURSOR TRAIL ============
+let trailTimeout;
+document.addEventListener('mousemove', (e) => {
+  clearTimeout(trailTimeout);
+  trailTimeout = setTimeout(() => {
+    const el = document.createElement('div');
+    el.textContent = '🐼';
+    el.style.cssText = `position:fixed;left:${e.clientX - 12}px;top:${e.clientY - 12}px;font-size:16px;pointer-events:none;z-index:8888;opacity:0.7;transition:opacity 0.8s,transform 0.8s;`;
+    document.getElementById('trail-container').appendChild(el);
+    requestAnimationFrame(() => { el.style.opacity = '0'; el.style.transform = 'translateY(-20px) scale(0.5)'; });
+    setTimeout(() => el.remove(), 900);
+  }, 20);
+});
+
+// ============ IMPOSSIBLE BUTTON ============
+let btnMoved = 0;
+function runBtn() {
+  const wrap = document.getElementById('impossible-wrap');
+  const btn = document.getElementById('impossible-btn');
+  const msgs = ['nice try 😏','nope','too slow 👀','almost!','you wish lmaooo','are you okay??','this is painful to watch'];
+  const ww = Math.max(0, wrap.offsetWidth - btn.offsetWidth - 10);
+  const wh = 40;
+  btn.style.left = (Math.random() * ww) + 'px';
+  btn.style.top = (Math.random() * wh) + 'px';
+  btnMoved++;
+  document.getElementById('impossible-msg').textContent = msgs[Math.min(btnMoved - 1, msgs.length - 1)];
+}
+function trollBtn() {
+  showTroll("Wait... you actually clicked it?? Velli toh hain aap");
+}
+
+// ============ QUIZ ============
+let quizFlipped = false;
+function quizAnswer(a) {
+  const el = document.getElementById('quiz-result');
+  if (a === 'yes' && !quizFlipped) {
+    el.textContent = "✅ Correct. kuch bahut bada kaam nhi kiya lekin.";
+    el.style.color = '#4a7a28';
+    quizFlipped = true;
+    setTimeout(() => {
+      el.textContent = "...wait actually, aap jaise chutiyo ko sahi answer nhi dena chahiye";
+      el.style.color = '#ff9a3c';
+    }, 2500);
+  } else if (a === 'no') {
+    el.textContent = "❌ Please reconsider your entire existence.";
+    el.style.color = '#ff4d88';
+    document.body.classList.add('shake');
+    setTimeout(() => document.body.classList.remove('shake'), 500);
+    setTimeout(() => showTroll("You said you DON'T like pandas?? Is this actually Hema? 🐼😤"), 800);
+  } else {
+    el.textContent = "We already covered this. 🐼";
+    el.style.color = '#888';
+  }
+}
+
+// ============ CLICKER ============
+let clicks = 0;
+const clickMsgs = [
+  [5, "okay"],
+  [15, "you're committed to this 👀"],
+  [30, "ma'am please stop"],
+  [50, "Hogya bhai bass😰"],
+  [75, "...ok 💀"],
+  [100, "You win....nothing."],
+  [150, "why are you STILL going"],
+  [200, "i'm calling someone"],
+];
+const pandaFaces = ['🐼','😤','😰','🥴','💀','🐼‼️'];
+function clickPanda() {
+  clicks++;
+  document.getElementById('click-count').textContent = clicks + ' click' + (clicks !== 1 ? 's' : '');
+  let msg = '';
+  for (const [threshold, text] of clickMsgs) { if (clicks >= threshold) msg = text; }
+  document.getElementById('click-message').textContent = msg;
+  if (clicks === 100) showTroll("100 clicks. Nothing happened. You're free. Go outside.");
+  if (clicks === 200) showTroll("200????Kuch karo yaar. Any hobby. Literally anything.");
+  document.getElementById('clicker-panda').textContent = pandaFaces[Math.min(Math.floor(clicks/30), pandaFaces.length-1)];
+}
+
+// ============ MOOD ORACLE ============
+const moodMap = {
+  '😭': [" eat something. Immediately.","Hydrate and watch a movie or somethin."],
+  '😐': ["Meh is a legitimate emotion."," That's okay."],
+  '😂': ["Chaotic joy. The best kind. Protect it.","You're thriving. Don't jinx it."],
+  '😤': ["Deep breaths.","Your anger is valid. Lekin kuch nhi ho skta ab"],
+  '🥱': ["Sleep is the answer.","You need a nap and a snack. In that order."],
+  '🤩': ["You're thinking sigma but mujhe lund farak nhi parta."]
+};
+function getMood(emoji) {
+  const msgs = moodMap[emoji];
+  document.getElementById('mood-result').textContent = emoji +  msgs[Math.floor(Math.random() * msgs.length)];
+}
+
+// ============ NAME RATER (with fake loading) ============
+const nameRatings = [
+  "🐼 10/10 — Theek hi hai",
+  "🌟 9.5/10 — theek hai",
+  "✨ 8/10 — GAY",
+  "😌 7/10 — Hatt chutiya",
+  "🎋 11/10 — Galti se hogya ye",
+  "🤌 Kya re bheekhmangya",
+];
+function rateName() {
+  const name = document.getElementById('name-input').value.trim();
+  if (!name) { document.getElementById('name-result').textContent = 'Enter your name first, genius 🐼'; return; }
+  const resultEl = document.getElementById('name-result');
+  const progressWrap = document.getElementById('fake-progress-wrap');
+  const progressBar = document.getElementById('fake-progress');
+  resultEl.textContent = 'Calculating...';
+  progressWrap.style.display = 'block';
+  progressBar.style.width = '0%';
+  let prog = 0;
+  const progInterval = setInterval(() => {
+    prog += Math.random() * 25 + 5;
+    if (prog > 100) prog = 100;
+    progressBar.style.width = prog + '%';
+    if (prog >= 100) {
+      clearInterval(progInterval);
+      setTimeout(() => {
+        progressWrap.style.display = 'none';
+        const r = nameRatings[Math.floor(Math.random() * nameRatings.length)];
+        resultEl.innerHTML = '<strong>' + name + '</strong> — ' + r;
+      }, 300);
+    }
+  }, 200);
+}
+
+// ============ ESCAPE BUTTON ============
+let escapeTries = 0;
+function tryLeave() {
+  const excuses = [
+    "lol no ",
+    "the website needs you. don't go.",
+    "you haven't even scrolled all the way back up yet.",
+    "ma'am...",
+    "okay FINE... just kidding. absolutely not.",
+    "attempt #" + (escapeTries+1) + " has failed. as expected.",
+    " are you happy with yourself??",
+    "okay i admire your persistence but NO.",
+  ];
+  document.getElementById('escape-msg').textContent = excuses[Math.min(escapeTries, excuses.length - 1)];
+  escapeTries++;
+  const btn = document.getElementById('escape-btn');
+  btn.classList.add('shake');
+  setTimeout(() => btn.classList.remove('shake'), 500);
+  if (escapeTries >= 5) showTroll("You've tried to leave " + escapeTries + " times. The panda has noted this. 🐼📋");
+}
+
+// ============ IQ TEST ============
+let iqAnswered = false;
+function iqAnswer(btn, type) {
+  if (iqAnswered) return;
+  iqAnswered = true;
+  const resultEl = document.getElementById('iq-result');
+  if (type === 'correct') {
+    resultEl.textContent = '✅ Correct! IQ: 47. The bar was on the floor and you stepped over it. Congratulations.';
+    resultEl.style.color = '#4a7a28';
+    setTimeout(() => showTroll("You got it right. The bar was on the FLOOR. And yet here we are, impressed. "), 800);
+  } else {
+    resultEl.textContent = '❌ Wrong. IQ: -12. disappointed.';
+    resultEl.style.color = '#ff4d88';
+    document.body.classList.add('shake');
+    setTimeout(() => document.body.classList.remove('shake'), 500);
+  }
+  document.querySelectorAll('.iq-opt').forEach(b => b.disabled = true);
+}
+
+// ============ TIMER GAME ============
+let timerRunning = false;
+let timerVal = 0;
+let timerInterval = null;
+let timerStarted = false;
+function startTimer() {
+  if (timerRunning) return;
+  timerRunning = true;
+  timerStarted = true;
+  timerVal = 0;
+  document.getElementById('timer-msg').textContent = 'running... stop at 5.00!';
+  timerInterval = setInterval(() => {
+    timerVal += 0.01;
+    document.getElementById('timer-display').textContent = timerVal.toFixed(2);
+    if (timerVal >= 99) { clearInterval(timerInterval); timerRunning = false; }
+  }, 10);
+}
+function stopTimer() {
+  if (!timerStarted || !timerRunning) { document.getElementById('timer-msg').textContent = 'press start first '; return; }
+  clearInterval(timerInterval);
+  timerRunning = false;
+  const diff = Math.abs(timerVal - 5.00);
+  const display = document.getElementById('timer-display');
+  const msg = document.getElementById('timer-msg');
+  if (diff < 0.05) {
+    msg.textContent = '🎉 AMAZING!! You got ' + timerVal.toFixed(2) + '! toh??';
+    showTroll("YOU HIT 5.00??  I refuse to believe this. Screenshot it. Send it to me NOW.");
+  } else if (diff < 0.2) {
+    msg.textContent = 'So close!! ' + timerVal.toFixed(2) + '. felt that.';
+  } else if (timerVal < 5) {
+    msg.textContent = timerVal.toFixed(2) + '. Too early! Patience is a virtue. ';
+  } else {
+    msg.textContent = timerVal.toFixed(2) + '. Way too late 🎋';
+  }
+}
+
+// ============ COMPLIMENT MACHINE ============
+const compliments = [
+  "Compliment chaiye?",
+  "Kya dekh rhi hai betichod",
+  "Khel khtm",
+  "Mtlb maine ye bana diya toh hawa me mat udna",
+  "You're doing amazing",
+  "Gaali toh mai dunga hi, no exceptions.",
+  "You could start a cult and it would honestly be a good one.",
+  "Scientists have confirmed you are 73% more haramkhor than normal human",
+  "ok ok si ho aap",
+  "Bhains kahiki",
+];
+function getCompliment() {
+  const c = compliments[Math.floor(Math.random() * compliments.length)];
+  document.getElementById('compliment-box').textContent = c;
+}
+
+// ============ PANDA RAIN ============
+let rainCount = 0;
+function pandaRain() {
+  rainCount++;
+  const msg = document.getElementById('rain-msg');
+  const msgs = ["i warned you","...i warned you twice","okay this is YOUR fault","they are HERE","you did this","i'm going to bed",];
+  msg.textContent = msgs[Math.min(rainCount - 1, msgs.length - 1)];
+  for (let i = 0; i < 25; i++) {
+    setTimeout(() => {
+      const panda = document.createElement('div');
+      panda.className = 'panda-rain';
+      panda.textContent = '🐼';
+      panda.style.left = (Math.random() * 100) + 'vw';
+      panda.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      panda.style.fontSize = (Math.random() * 24 + 16) + 'px';
+      document.body.appendChild(panda);
+      panda.addEventListener('animationend', () => panda.remove());
+    }, i * 80);
+  }
+  if (rainCount === 3) showTroll("You pressed it THREE TIMES?? They are EVERYWHERE. This is on you.");
+}
+
+// ============ TROLL OVERLAY ============
+let trollQueue = [];
+let trollShowing = false;
+function showTroll(msg) {
+  trollQueue.push(msg);
+  if (!trollShowing) nextTroll();
+}
+function nextTroll() {
+  if (trollQueue.length === 0) { trollShowing = false; return; }
+  trollShowing = true;
+  document.getElementById('troll-msg').textContent = trollQueue.shift();
+  const ov = document.getElementById('troll-overlay');
+  ov.style.display = 'flex';
+}
+function closeTroll() {
+  document.getElementById('troll-overlay').style.display = 'none';
+  setTimeout(nextTroll, 300);
+}
+
+// ============ CONFETTI ============
+function spawnConfetti() {
+  const colors = ['#ffb3c6','#ffe66d','#7ab648','#c084fc','#7dd3fc','#ff9a3c'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+    el.style.animationDelay = (Math.random() * 2) + 's';
+    el.style.width = el.style.height = (Math.random() * 8 + 6) + 'px';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+
+// ============ RANDOM PANDA POPUP ============
+const randomPopups = [
+  "pssst. still here? same. 🐼",
+  "i am watching you scroll. 👀",
+  "did you know you blink 15-20 times a minute? you just thought about blinking. you're welcome.",
+  "breaking news: you are still on this website. sources close to the situation are baffled.",
+  "gentle reminder that you asked for this. I want that on record. ",
+];
+let popupIdx = 0;
+setInterval(() => {
+  if (Math.random() > 0.6 && !trollShowing) {
+    showTroll(randomPopups[popupIdx % randomPopups.length]);
+    popupIdx++;
+  }
+}, 45000);
+</script>
+</body>
+</html>

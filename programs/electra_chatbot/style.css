@@ -1,0 +1,100 @@
+:root {
+    --midnight-navy: #0A1128; /* Deep, smart navy */
+    --electric-navy: #1C355E; /* Slightly lighter for borders */
+    --bg-obsidian: rgba(2, 4, 10, 0.98);
+    --bot-bubble: #0D1117; 
+    --text-main: #F0F6FC;
+    --text-muted: #8B949E;
+}
+
+body {
+    background: #000;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Launcher - Sophisticated Navy */
+#chat-launcher {
+    position: fixed; bottom: 30px; right: 30px;
+    width: 55px; height: 55px;
+    background: var(--midnight-navy);
+    color: #fff; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; cursor: pointer; z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--electric-navy);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+#chat-launcher:hover { transform: scale(1.1); background: var(--electric-navy); }
+
+/* Container - Glassmorphism obsidian */
+#chat-container {
+    position: fixed; bottom: 100px; right: 30px;
+    width: 380px; height: 580px;
+    background: var(--bg-obsidian);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    display: flex; flex-direction: column;
+    z-index: 1000;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.9);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chat-hidden { opacity: 0; transform: translateY(30px) scale(0.98); pointer-events: none; }
+
+/* Clean Pro Header */
+#chat-header {
+    padding: 22px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex; justify-content: space-between; align-items: center;
+}
+.logo { font-weight: 700; font-size: 13px; letter-spacing: 2px; color: var(--text-main); }
+.accent-text { color: var(--midnight-navy); filter: brightness(1.8); }
+
+.minimize-btn { 
+    background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-muted); width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: 0.3s;
+}
+.minimize-btn:hover { background: var(--midnight-navy); color: #fff; transform: translateY(2px); }
+
+/* Chat Content */
+#chat-box { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+
+.msg { font-size: 14px; line-height: 1.6; max-width: 85%; padding: 12px 18px; border-radius: 8px; }
+.bot { background: var(--bot-bubble); color: #C9D1D9; align-self: flex-start; border: 1px solid rgba(255,255,255,0.03); }
+.user { background: var(--midnight-navy); color: #fff; align-self: flex-end; font-weight: 500; }
+
+/* Input Footer */
+#input-area { padding: 20px 25px; display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.2); }
+#user-input {
+    flex: 1; background: transparent; border: none; color: white;
+    font-size: 14px; outline: none; font-weight: 300;
+}
+#user-input::placeholder { color: #484F58; }
+
+#send-btn {
+    background: transparent; border: none; color: var(--text-main);
+    width: 32px; height: 32px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.2s;
+}
+#send-btn:hover { color: var(--midnight-navy); filter: brightness(2); }
+
+/* Custom Scroll */
+#chat-box::-webkit-scrollbar { width: 3px; }
+#chat-box::-webkit-scrollbar-thumb { background: var(--bot-bubble); }
+
+.typing-indicator { display:flex; align-items:center; gap:5px; padding:10px 14px; }
+.typing-indicator span { width:8px; height:8px; border-radius:50%; background:#3E63DD; animation:bounce 1.2s infinite ease-in-out; }
+.typing-indicator span:nth-child(2) { animation-delay:0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay:0.4s; }
+@keyframes bounce { 0%,80%,100%{transform:scale(0.7);opacity:0.5} 40%{transform:scale(1);opacity:1} }
+.typing-indicator { display:flex; align-items:center; gap:5px; padding:10px 14px; }
+.typing-indicator span { width:8px; height:8px; border-radius:50%; background:#3E63DD; animation:bounce 1.2s infinite ease-in-out; }
+.typing-indicator span:nth-child(2) { animation-delay:0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay:0.4s; }
+@keyframes bounce { 0%,80%,100%{transform:scale(0.7);opacity:0.5} 40%{transform:scale(1);opacity:1} }

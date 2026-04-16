@@ -1,0 +1,1 @@
+print("aalu","baigan",sep='1')
